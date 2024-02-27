@@ -27,6 +27,24 @@ body {
         transform: translateY(100%);
       }
     }
+
+    .line {
+      display: block;
+      overflow: hidden;
+      position: relative;
+      top: -0.2em;
+    }
+  
+    .line + .line {
+      top: -0.395em;
+    }
+    
+    .char {
+      display: inline-block;
+      position: relative;
+      vertical-align: sub;
+      transform: translate3d(0, 1.1em, 0);
+    }
   }
 
   .background-layer {
@@ -42,18 +60,21 @@ body {
       transform: scale(1, 0);
     }
     &:not(.background-layer_initial) {
-      transition: transform $standart-duration linear;
+      transition: transform $show-background-layer-duration linear;
     }
   }
 }
 
 body.page-loaded {
+  .page-header {
+    transition: opacity $show-page-header-duration $time-function-normal-acceleration-and-slow-braking;
+    transition-delay: $show-page-header-delay;
+  }
+
   .page-header,
   .page-header__logo,
   .screen--intro .screen__footer {
     opacity: 1;
-    transition: opacity $standart-duration $time-function-normal-acceleration-and-slow-braking;
-    transition-delay: $standart-delay * 2;
   }
 
   .page-header {
@@ -62,35 +83,46 @@ body.page-loaded {
         width: 100%;
         left: 0;
         right: auto;
-        transition: width $standart-duration;
-        transition-delay: $standart-delay * 4;
+        transition: width $show-nav-duration;
+        transition-delay: $show-nav-delay;
       }
     }
 
     .page-header__logo {
       transform: translateX(0);
-      transition: transform $standart-duration $time-function-normal-acceleration-and-slow-braking;
-      transition-delay: $standart-delay;
+      transition: transform $show-logo-duration $time-function-normal-acceleration-and-slow-braking;
+      transition-delay: $show-logo-delay;
     }
     
     .social-block__toggler::before {
       transform: translate(-50%, -50%) scale(1, 1);
-      transition: transform $standart-duration $time-function-with-flying-out;
-      transition-delay: $standart-delay * 3;
+      transition: transform $show-social-block-duration $time-function-with-flying-out;
+      transition-delay: $show-social-block-delay;
     }
   }
 
   .screen {
     &.screen--intro {
+
       .screen__footer {
         transform: translateY(0);
-        transition: transform $standart-duration $time-function-normal-acceleration-and-slow-braking;
+        transition: transform $show-footer-duration $time-function-normal-acceleration-and-slow-braking;
+      }
+
+      &.active {
+        .intro__label {
+          opacity: 1;
+          transition: opacity $show-intro-label-duration ease $show-intro-label-delay;
+        }
+      }
+      &:not(.active) {
+        .intro__label {
+          opacity: 0;
+        }
       }
     }
 
     &.screen--rules {
-      $time-function-with-flying-out-time-at-the-top: $standart-duration * 2 / 3;
-
       .rules__item {
         p {
           opacity: 0;
@@ -111,7 +143,7 @@ body.page-loaded {
 
         &:nth-child(1) {
           p {
-            animation-delay: $time-function-with-flying-out-time-at-the-top;
+            animation-delay: $show-rules-items-standart-delay;
           }
 
           &::before {
@@ -121,31 +153,31 @@ body.page-loaded {
 
         &:nth-child(2) {
           p {
-            animation-delay: $time-function-with-flying-out-time-at-the-top * 2;
+            animation-delay: $show-rules-items-standart-delay * 2;
           }
 
           &::before {
-            animation-delay: $time-function-with-flying-out-time-at-the-top;
+            animation-delay: $show-rules-items-standart-delay;
           }
         }
 
         &:nth-child(3) {
           p {
-            animation-delay: $time-function-with-flying-out-time-at-the-top * 3;
+            animation-delay: $show-rules-items-standart-delay * 3;
           }
 
           &::before {
-            animation-delay: $time-function-with-flying-out-time-at-the-top * 2;
+            animation-delay: $show-rules-items-standart-delay * 2;
           }
         }
 
         &:nth-child(4) {
           p {
-            animation-delay: $time-function-with-flying-out-time-at-the-top * 4;
+            animation-delay: $show-rules-items-standart-delay * 4;
           }
 
           &::before {
-            animation-delay: $time-function-with-flying-out-time-at-the-top * 3;
+            animation-delay: $show-rules-items-standart-delay * 3;
           }
         }
       }
@@ -156,7 +188,7 @@ body.page-loaded {
         animation-name: showButton, showButtonText;
         animation-duration: 0ms, 0ms;
         animation-fill-mode: forwards, forwards;
-        animation-delay: $time-function-with-flying-out-time-at-the-top + $standart-duration * 3, $time-function-with-flying-out-time-at-the-top + $standart-duration * 4;
+        animation-delay: $show-rules-items-standart-delay + $standart-duration * 3, $show-rules-items-standart-delay + $standart-duration * 4;
 
         &::before {
           top: 50%;
@@ -167,12 +199,119 @@ body.page-loaded {
           animation-name: transformButton;
           animation-duration: $standart-duration;
           animation-fill-mode: forwards;
-          animation-delay: $time-function-with-flying-out-time-at-the-top + $standart-duration * 3;
+          animation-delay: $show-rules-items-standart-delay + $standart-duration * 3;
+        }
+      }
+    }
+
+    &.active {
+      .char {
+        transform: translate3d(0, 0, 0);
+        transition: transform $show-chars-from-bottom-to-top-duration ease-out;
+      }
+    }
+  }
+
+  .screen--result {
+    &#result2 {      
+      .result__image {
+        position: relative;
+        flex-grow: 1;
+
+        img {
+          position: absolute;
+          object-fit: fill;
+          object-position: 50% 50%;
+          height: auto;
+        }
+      }
+
+      &.screen--show {
+        .result__image {
+          &_leaf_blue_right {
+            z-index: 2;
+            max-width: 444px;
+            width: 41%;
+            animation-name: showLeafBlueRight;
+            animation-duration: $show-leaf-blue-duration;
+            animation-fill-mode: both;
+            animation-delay: $change-screen-delay + $show-leaf-blue-delay;
+          }
+
+          &_leaf_blue_left {
+            z-index: 2;
+            max-width: 444px;
+            width: 41%;
+            animation-name: showLeafBlueLeft;
+            animation-duration: $show-leaf-blue-duration;
+            animation-fill-mode: both;
+            animation-delay: $change-screen-delay + $show-leaf-blue-delay;
+          }
+
+          &_leaf_green {
+            z-index: 3;
+            max-width: 533px;
+            width: 48%;
+            animation-name: showLeafGrean;
+            animation-duration: $show-leaf-green-duration;
+            animation-fill-mode: both;
+            animation-delay: $change-screen-delay + $show-leaf-green-delay;
+          }
+
+          &_suitcase {
+            z-index: 4;
+            max-width: 542px;
+            width: 50.5%;
+            animation-name: showSuitcase;
+            animation-duration: $show-suitcase-duration;
+            animation-fill-mode: both;
+            animation-delay: $change-screen-delay;
+          }
+
+          &_flamingo {
+            z-index: 5;
+            max-width: 412px;
+            width: 38%;
+            animation: $show-flamingo-duration $change-screen-delay both showFlamingo, $move-flamingo-duration linear ($show-flamingo-duration + $change-screen-delay) infinite alternate moveFlamingo;
+          }
+        }
+
+        .form__field {
+          opacity: 0;
+          animation-name: showFormField;
+          animation-duration: $show-form-field-duration * 100;
+          animation-fill-mode: forwards;
+          animation-delay: $change-screen-delay + $show-form-field-delay;
+        }
+
+        .form__field {
+          animation-name: showFormFieldPlaceholder;
+          animation-duration: $show-form-field-duration * 100;
+          animation-fill-mode: both;
+          animation-delay: $change-screen-delay + $show-form-field-delay;
+        }
+
+        .form__button {
+          animation-name: showFormButton;
+          animation-duration: $show-form-button-duration;
+          animation-fill-mode: both;
+          animation-delay: $change-screen-delay + $show-form-button-delay;
+        }
+
+
+        @media (orientation: portrait) {
+          .form__field {
+            animation-name: showFormFieldPortrait;
+          }
+
+          .result__image {
+            left: 0;
+            right: 0;
+          }
         }
       }
     }
   }
-  
 }
 
 @keyframes showBullet {
@@ -228,5 +367,162 @@ body.page-loaded {
   }
   to {
     color: #5f458c;
+  }
+}
+
+@keyframes showLeafBlueRight {
+  from {
+    opacity: 0;
+    transform: translate3d(38%, -26%, 0) rotate3d(0, 0, 1, -20deg);
+  }
+  13% {
+    opacity: 1;
+  }
+  15% {
+    transform: translate3d(49%, -6%, 0) rotate3d(0, 0, 1, 10deg);
+  }
+  36% {
+    transform: translate3d(48%, -15%, 0) rotate3d(0, 0, 1, -7deg);
+  }
+  55% {
+    transform: translate3d(49%, -7%, 0) rotate3d(0, 0, 1, 3deg);
+  }
+  77% {
+    transform: translate3d(49%, -11%, 0) rotate3d(0, 0, 1, -0.6deg);
+  }
+  to {
+    transform: translate3d(49%, -10%, 0);
+  }
+}
+
+@keyframes showLeafBlueLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-62.5%, -4.5%, 0) rotate3d(0, 0, 1, 45deg);
+  }
+  14% {
+    opacity: 1;
+  }
+  21% {
+    transform: translate3d(-71.5%, 35.5%, 0) rotate3d(0, 0, 1, -15deg);
+  }
+  44% {
+    transform: translate3d(-73.5%, 18.5%, 0) rotate3d(0, 0, 1, 10deg);
+  }
+  61% {
+    transform: translate3d(-72.5%, 33.5%, 0) rotate3d(0, 0, 1, -7deg);
+  }
+  85% {
+    transform: translate3d(-73.5%, 26.5%, 0) rotate3d(0, 0, 1, 3deg);
+  }
+  to {
+    transform: translate3d(-73.5%, 27.5%, 0);
+  }
+}
+
+@keyframes showLeafGrean {
+  from {
+    opacity: 0;
+    transform: translate3d(32%, 4%, 0) rotate3d(0, 0, 1, -20deg);
+  }
+  14% {
+    opacity: 1;
+    transform: translate3d(42%, 56%, 0) rotate3d(0, 0, 1, 10deg);
+  }
+  40% {
+    transform: translate3d(38%, 24%, 0) rotate3d(0, 0, 1, -8deg);
+  }
+  60% {
+    transform: translate3d(41%, 47%, 0) rotate3d(0, 0, 1, 5deg);
+  }
+  80% {
+    transform: translate3d(39%, 33%, 0) rotate3d(0, 0, 1, -3deg);
+  }
+  to {
+    transform: translate3d(40%, 38%, 0);
+  }
+}
+
+@keyframes showSuitcase {
+  from {
+    transform: translate3d(-41.5%, 77%, 0) scale3d(0, 0, 0);
+  }
+  55% {
+    transform: translate3d(-7.5%, -15%, 0) scale3d(1.3, 1.3, 1.3);
+  }
+  to {
+    transform: translate3d(-10.5%, 5%, 0);
+  }
+}
+
+@keyframes showFlamingo {
+  from {
+    opacity: 0;
+    transform: translate3d(-41.5%, 100%, 0) rotate3d(0, 0, 1, -20deg);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(-41.5%, 21.5%, 0);
+  }
+}
+
+@keyframes moveFlamingo {
+  50% {
+    transform: translate3d(-39%, 16.5%, 0) rotate3d(0, 0, 1, 6deg);
+  }
+  to {
+    transform: translate3d(-42%, 25.5%, 0) rotate3d(0, 0, 1, -1.5deg);
+  }
+}
+
+@keyframes showFormButton {
+  from {
+    color: transparent;
+    opacity: 0;
+  }
+  33% {
+    color: transparent;
+    opacity: 1;
+  }
+  to {
+    color: #5f458c;
+  }
+}
+
+@keyframes showFormField {
+  from {
+    opacity: 1;
+    width: 6rem;
+    padding: 0;
+  }
+  to {
+    opacity: 1;
+    padding: 0 5.6rem;
+    width: calc(100% - 31rem);
+  }
+}
+
+@keyframes showFormFieldPortrait {
+  from {
+    opacity: 1;
+    width: 6rem;
+    padding: 0;
+  }
+  to {
+    opacity: 1;
+    padding: 0 5.6rem;
+    width: calc(100% - 5rem);
+  }
+}
+
+@keyframes showFormFieldPlaceholder {
+  from {
+    opacity: 0;
+  }
+  68% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

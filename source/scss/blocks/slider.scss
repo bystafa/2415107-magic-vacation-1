@@ -282,7 +282,7 @@
   position: relative;
   opacity: 1;
   left: 0;
-  transition: opacity 300ms linear, left 300ms ease;
+  transition: opacity $show-slider-text-duration linear, left $show-slider-text-duration ease;
 }
 
 .screen.screen--story.active .slider__item-text,
@@ -304,9 +304,9 @@
 }
 
 .screen.screen--story.active .swiper-slide-active .slider__item-text {
-  transition-delay: 300ms;
+  transition-delay: $show-active-slider-text-delay;
 }
 
 .screen.screen--story.active .swiper-slide-next .slider__item-text {
-  transition-delay: 600ms;
+  transition-delay: $show-next-slider-text-delay;
 }

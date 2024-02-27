@@ -167,7 +167,8 @@
   position: relative;
   opacity: 1;
   top: 0;
-  transition: opacity 300ms linear, top 300ms ease;
+  transition: opacity $show-intro-message-duration linear, top $show-intro-message-duration ease;
+  transition-delay: $show-intro-message-delay;
 }
 
 .screen.screen--intro:not(.active) .intro__message {

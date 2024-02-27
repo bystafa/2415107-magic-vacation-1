@@ -9,14 +9,14 @@
 
     .social-block__list li {
       opacity: 1;
-      transition: opacity 300ms linear;
+      transition: opacity $show-social-block-item-duration linear;
 
       &:nth-child(2) {
-        transition-delay: 100ms;
+        transition-delay: $standart-delay;
       }
 
       &:nth-child(3) {
-        transition-delay: 100ms;
+        transition-delay: $standart-delay;
       }
     }
   }
