@@ -149,9 +149,10 @@
 }
 
 .screen.screen--game.active .form__field {
-  transition: width 300ms;
+  transition: width $change-width-input-field-duration;
 }
 
 .screen.screen--game:not(.active) .form__field {
-  width: 0;
+  width: 6rem;
+  padding: 0;
 }

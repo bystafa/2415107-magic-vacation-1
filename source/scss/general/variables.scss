@@ -24,8 +24,44 @@ $time-function-normal-acceleration-and-slow-braking: cubic-bezier(.5,0,0,1);
 $time-function-with-flying-out: cubic-bezier(.5,0,.5,1.5);
 
 $standart-duration: 300ms;
+$show-logo-duration: 300ms;
+$show-nav-duration: 300ms;
+$show-footer-duration: 300ms;
+$show-social-block-duration: 300ms;
+$show-background-layer-duration: 300ms;
+$show-page-header-duration: 300ms;
+$show-intro-message-duration: 300ms;
+$show-chars-from-bottom-to-top-duration: 700ms;
+$change-width-input-field-duration: 300ms;
+$show-nav-underline-duration: 300ms;
+$show-social-block-item-duration: 300ms;
+$show-slider-text-duration: 300ms;
+$show-intro-label-duration: 300ms;
+$show-leaf-blue-duration: 1733ms;
+$show-leaf-green-duration: 1700ms;
+$show-suitcase-duration: 433ms;
+$show-flamingo-duration: 333ms;
+$move-flamingo-duration: 2666ms;
+$show-form-field-duration: 533ms;
+$show-form-button-duration: 300ms;
+
 $standart-delay: 100ms;
+$change-screen-delay: 100ms;
+$show-logo-delay: 100ms;
+$show-nav-delay: 400ms;
+$show-footer-delay: 100ms;
+$show-social-block-delay: 300ms;
+$show-page-header-delay: 200ms;
+$show-rules-items-standart-delay: 200ms;
+$show-active-slider-text-delay: 300ms;
+$show-next-slider-text-delay: 300ms;
+$show-intro-message-delay: 400ms + $show-chars-from-bottom-to-top-duration;
+$show-intro-label-delay: $show-intro-message-delay + $show-chars-from-bottom-to-top-duration;
+$show-leaf-green-delay: 300ms;
+$show-leaf-blue-delay: 200ms;
+$show-form-field-delay: 533ms;
+$show-form-button-delay: 366ms;
 
 :export {
-    standart-duration: $standart-duration;
+    change-screen-delay: $change-screen-delay;
 }

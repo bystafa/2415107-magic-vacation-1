@@ -55,7 +55,7 @@ export default class FullPageScroll {
   changeVisibilityDisplay() {
     const activeScreen = document.querySelector('.screen.active');
     const backgroundLayer = document.querySelector('.background-layer');
-    const delayBetweenScreenChanges = parseFloat(variables['standart-duration']) || 0;
+    const changeScreenDelay = parseFloat(variables['change-screen-delay']) || 0;
 
     const toggleActiveClass = () => {
       this.screenElements.forEach((screen) => {
@@ -81,7 +81,7 @@ export default class FullPageScroll {
 
         toggleActiveClass();
         toggleScreenHiddenClass();
-      }, delayBetweenScreenChanges);
+      }, changeScreenDelay);
     } else {
       toggleActiveClass();
       toggleScreenHiddenClass();
