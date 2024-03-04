@@ -22,10 +22,10 @@ body {
   }
 
   .screen {
-    &.screen--intro {
-      .screen__footer {
-        transform: translateY(100%);
-      }
+    .screen__footer,
+    .screen__disclaimer {
+      transform: translateY(100%);
+      transition: transform $show-footer-duration $time-function-normal-acceleration-and-slow-braking;
     }
 
     .line {
@@ -54,10 +54,10 @@ body {
     width: 100vw;
     background-color: $c-dark;
     transform-origin: bottom;
-    transform: scale(1, 1);
+    transform: scale3d(1, 1, 1);
     z-index: 1;
     &.background-layer_initial {
-      transform: scale(1, 0);
+      transform: scale3d(1, 0, 1);
     }
     &:not(.background-layer_initial) {
       transition: transform $show-background-layer-duration linear;
@@ -103,12 +103,6 @@ body.page-loaded {
 
   .screen {
     &.screen--intro {
-
-      .screen__footer {
-        transform: translateY(0);
-        transition: transform $show-footer-duration $time-function-normal-acceleration-and-slow-braking;
-      }
-
       &.active {
         .intro__label {
           opacity: 1;
@@ -119,6 +113,31 @@ body.page-loaded {
         .intro__label {
           opacity: 0;
         }
+      }
+    }
+
+    &.screen--story {
+      .slider__control,
+      .slider__pagination {
+        animation-duration: $show-slider-controls-and-pagination-duration;
+        animation-fill-mode: backwards;
+        animation-delay: $show-next-slider-text-delay + $show-slider-text-duration / 3;
+      }
+
+      .slider__control {
+        &:nth-child(1) {
+          animation-name: moveSliderControlPrev, showSliderControlPrev;
+          animation-timing-function: ease-out, linear;
+        }
+        &:nth-child(2) {
+          animation-name: moveSliderControlNext, showSliderControlNextAndPagination;
+          animation-timing-function: ease-out, linear;
+        }
+      }
+
+      .slider__pagination {
+        animation-name: showSliderControlNextAndPagination;
+        animation-timing-function: ease-out, linear;
       }
     }
 
@@ -188,7 +207,8 @@ body.page-loaded {
         animation-name: showButton, showButtonText;
         animation-duration: 0ms, 0ms;
         animation-fill-mode: forwards, forwards;
-        animation-delay: $show-rules-items-standart-delay + $standart-duration * 3, $show-rules-items-standart-delay + $standart-duration * 4;
+        animation-delay: $show-rules-items-standart-delay + $standart-duration * 3,
+                         $show-rules-items-standart-delay + $standart-duration * 4;
 
         &::before {
           top: 50%;
@@ -210,106 +230,285 @@ body.page-loaded {
         transition: transform $show-chars-from-bottom-to-top-duration ease-out;
       }
     }
+
+    &.screen--result {
+      &#result2 {      
+        .result__image {
+          position: relative;
+          flex-grow: 1;
+
+          img {
+            position: absolute;
+            object-fit: fill;
+            object-position: 50% 50%;
+            height: auto;
+          }
+        }
+
+        &.screen--show {
+          .result__image {
+            &_leaf_blue_right {
+              z-index: 2;
+              max-width: 444px;
+              width: 41%;
+              animation-name: showLeafBlueRight;
+              animation-duration: $show-leaf-blue-duration;
+              animation-fill-mode: both;
+              animation-delay: $change-screen-delay + $show-leaf-blue-delay;
+            }
+
+            &_leaf_blue_left {
+              z-index: 2;
+              max-width: 444px;
+              width: 41%;
+              animation-name: showLeafBlueLeft;
+              animation-duration: $show-leaf-blue-duration;
+              animation-fill-mode: both;
+              animation-delay: $change-screen-delay + $show-leaf-blue-delay;
+            }
+
+            &_leaf_green {
+              z-index: 3;
+              max-width: 533px;
+              width: 48%;
+              animation-name: showLeafGrean;
+              animation-duration: $show-leaf-green-duration;
+              animation-fill-mode: both;
+              animation-delay: $change-screen-delay + $show-leaf-green-delay;
+            }
+
+            &_suitcase {
+              z-index: 4;
+              max-width: 542px;
+              width: 50.5%;
+              animation-name: showSuitcase;
+              animation-duration: $show-suitcase-duration;
+              animation-fill-mode: both;
+              animation-delay: $change-screen-delay;
+            }
+
+            &_flamingo {
+              z-index: 5;
+              max-width: 412px;
+              width: 38%;
+              animation: $show-flamingo-duration $change-screen-delay both showFlamingo,
+                        $move-flamingo-duration linear ($show-flamingo-duration + $change-screen-delay) infinite alternate moveFlamingo;
+            }
+          }
+
+          .form__field {
+            opacity: 0;
+            animation-name: showFormField;
+            animation-duration: $show-form-field-duration;
+            animation-fill-mode: forwards;
+            animation-delay: $change-screen-delay + $show-form-field-delay;
+          }
+
+          .form__field::placeholder {
+            animation-name: showFormFieldPlaceholder;
+            animation-duration: $show-form-field-duration;
+            animation-fill-mode: both;
+            animation-delay: $change-screen-delay + $show-form-field-delay;
+          }
+
+          .form__button {
+            animation-name: showFormButton;
+            animation-duration: $show-form-button-duration;
+            animation-fill-mode: both;
+            animation-delay: $change-screen-delay + $show-form-button-delay;
+          }
+
+
+          @media (orientation: portrait) {
+            .form__field {
+              animation-name: showFormFieldPortrait;
+            }
+
+            .result__image {
+              left: 0;
+              right: 0;
+            }
+          }
+        }
+      }
+
+      &#result3 {
+        &.screen--show {
+          .result__button, .result__button span {
+            animation-duration: $show-negative-result-button-duration;
+            animation-fill-mode: backwards;
+            animation-delay: $change-screen-delay + $show-negative-result-button-delay;
+          }
+          .result__button {
+            animation-name: showNegativeResultButton;
+            animation-timing-function: linear;
+            span {
+              animation-name: moveNegativeResultRepeatButton;
+              animation-timing-function: ease-out;
+            }
+          }
+        }
+      }
+    }
+
+    &.active .screen__footer,
+    &.active .screen__disclaimer,
+    .screen__footer:has(.screen__footer-wrapper_hidden),
+    .screen__disclaimer:has(.disclaimer_hidden) {
+      transform: translateY(0);
+    }
+
+    &:not(.active) .screen__footer:not(:has(.screen__footer-wrapper_hidden)),
+    &:not(.active) .screen__disclaimer:not(:has(.disclaimer_hidden)) {
+      transform: translateY(100%);
+    }
+
+    &.screen--prizes .screen__footer-wrapper,
+    &.screen--rules .disclaimer ul {
+      transition: opacity $change-screen-delay ease;
+    }
+
+    &.screen--prizes .screen__footer-wrapper_hidden,
+    &.screen--rules .disclaimer_hidden ul {
+      opacity: 0;
+    }
+
+    @media (max-width: $tablet) and (orientation: portrait) {
+      &:not(.active) .screen__footer,
+      &:not(.active) .screen__disclaimer {
+        transform: translateY(100%);
+      }
+      &.screen--prizes .screen__footer-wrapper_hidden,
+      &.screen--rules .disclaimer_hidden ul {
+        opacity: 1;
+      }
+
+      .screen__footer.screen__footer--full {
+        animation-name: showMobileFooter;
+        animation-duration: $show-mobile-footer-duration;
+        animation-fill-mode: both;
+      }
+
+      .screen__footer.screen__footer--full .screen__footer-wrapper {
+        animation-name: showMobileFooterText;
+        animation-delay: $show-mobile-footer-text-delay;
+        animation-duration: $show-mobile-footer-text-duration;
+        animation-fill-mode: both;
+      }
+    }
   }
 
-  .screen--result {
-    &#result2 {      
-      .result__image {
-        position: relative;
-        flex-grow: 1;
+  &.color-theme_rich_purple_blue {
+    .page-header__menu a:hover,
+    .social-block__toggler:hover,
+    .social-block__toggler:focus,
+    .social-block__link:hover,
+    .slider__control:focus,
+    .slider__control:hover {
+      color: $rich-purple-blue;
+    }
 
-        img {
-          position: absolute;
-          object-fit: fill;
-          object-position: 50% 50%;
-          height: auto;
-        }
-      }
+    .social-block__toggler:focus::before,
+    .social-block__toggler:active::before,
+    .slider__control:focus::before,
+    .slider__control:active::before,
+    .slider__control:active:focus::before {
+      border-color: $rich-purple-blue;
+    }
+    
+    .page-header__menu a:hover::after,
+    .social-block__toggler:active::before,
+    .slider__control:active::before,
+    .slider__control:active:focus::before {
+      background-color: $rich-purple-blue;
+    }
 
-      &.screen--show {
-        .result__image {
-          &_leaf_blue_right {
-            z-index: 2;
-            max-width: 444px;
-            width: 41%;
-            animation-name: showLeafBlueRight;
-            animation-duration: $show-leaf-blue-duration;
-            animation-fill-mode: both;
-            animation-delay: $change-screen-delay + $show-leaf-blue-delay;
-          }
+    .social-block__toggler:active,
+    .social-block__toggler:active:focus,
+    .slider__control:active,
+    .slider__control:active:focus {
+      color: $c-light;
+    }
 
-          &_leaf_blue_left {
-            z-index: 2;
-            max-width: 444px;
-            width: 41%;
-            animation-name: showLeafBlueLeft;
-            animation-duration: $show-leaf-blue-duration;
-            animation-fill-mode: both;
-            animation-delay: $change-screen-delay + $show-leaf-blue-delay;
-          }
+    .social-block__toggler,
+    .slider__control {
+      color: $c-purple;
+    }
+  }
 
-          &_leaf_green {
-            z-index: 3;
-            max-width: 533px;
-            width: 48%;
-            animation-name: showLeafGrean;
-            animation-duration: $show-leaf-green-duration;
-            animation-fill-mode: both;
-            animation-delay: $change-screen-delay + $show-leaf-green-delay;
-          }
+  &.color-theme_royal_blue {
+    .page-header__menu a:hover,
+    .social-block__toggler:hover,
+    .social-block__toggler:focus,
+    .social-block__link:hover,
+    .slider__control:focus,
+    .slider__control:hover {
+      color: $royal-blue;
+    }
 
-          &_suitcase {
-            z-index: 4;
-            max-width: 542px;
-            width: 50.5%;
-            animation-name: showSuitcase;
-            animation-duration: $show-suitcase-duration;
-            animation-fill-mode: both;
-            animation-delay: $change-screen-delay;
-          }
+    .social-block__toggler:focus::before,
+    .social-block__toggler:active::before,
+    .slider__control:focus::before,
+    .slider__control:active::before,
+    .slider__control:active:focus::before {
+      border-color: $royal-blue;
+    }
+    
+    .page-header__menu a:hover::after,
+    .social-block__toggler:active::before,
+    .slider__control:active::before,
+    .slider__control:active:focus::before {
+      background-color: $royal-blue;
+    }
 
-          &_flamingo {
-            z-index: 5;
-            max-width: 412px;
-            width: 38%;
-            animation: $show-flamingo-duration $change-screen-delay both showFlamingo, $move-flamingo-duration linear ($show-flamingo-duration + $change-screen-delay) infinite alternate moveFlamingo;
-          }
-        }
+    .social-block__toggler:active,
+    .social-block__toggler:active:focus,
+    .slider__control:active,
+    .slider__control:active:focus {
+      color: $c-light;
+    }
 
-        .form__field {
-          opacity: 0;
-          animation-name: showFormField;
-          animation-duration: $show-form-field-duration * 100;
-          animation-fill-mode: forwards;
-          animation-delay: $change-screen-delay + $show-form-field-delay;
-        }
+    .social-block__toggler,
+    .slider__control {
+      color: $light-blue;
+    }
+  }
 
-        .form__field {
-          animation-name: showFormFieldPlaceholder;
-          animation-duration: $show-form-field-duration * 100;
-          animation-fill-mode: both;
-          animation-delay: $change-screen-delay + $show-form-field-delay;
-        }
+  &.color-theme_light_blue {
+    .page-header__menu a:hover,
+    .social-block__toggler:hover,
+    .social-block__toggler:focus,
+    .social-block__link:hover,
+    .slider__control:focus,
+    .slider__control:hover {
+      color: $light-blue;
+    }
 
-        .form__button {
-          animation-name: showFormButton;
-          animation-duration: $show-form-button-duration;
-          animation-fill-mode: both;
-          animation-delay: $change-screen-delay + $show-form-button-delay;
-        }
+    .social-block__toggler:focus::before,
+    .social-block__toggler:active::before,
+    .slider__control:focus::before,
+    .slider__control:active::before,
+    .slider__control:active:focus::before {
+      border-color: $light-blue;
+    }
+    
+    .page-header__menu a:hover::after,
+    .social-block__toggler:active::before,
+    .slider__control:active::before,
+    .slider__control:active:focus::before {
+      background-color: $light-blue;
+    }
 
+    .social-block__toggler:active,
+    .social-block__toggler:active:focus,
+    .slider__control:active,
+    .slider__control:active:focus {
+      color: $c-light;
+    }
 
-        @media (orientation: portrait) {
-          .form__field {
-            animation-name: showFormFieldPortrait;
-          }
-
-          .result__image {
-            left: 0;
-            right: 0;
-          }
-        }
-      }
+    .social-block__toggler,
+    .slider__control {
+      color: $royal-blue;
     }
   }
 }
@@ -520,6 +719,87 @@ body.page-loaded {
     opacity: 0;
   }
   68% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes moveSliderControlPrev {
+  from {
+    transform: translate3d(-6rem, 0, 0) rotate3d(0, 0, 1, -135deg);
+  }
+  20% {
+    transform: translate3d(-4rem, 0, 0) rotate3d(0, 0, 1, -90deg);
+  }
+  50% {
+    transform: translate3d(-2rem, 0, 0) rotate3d(0, 0, 1, -45deg);
+  }
+}
+
+@keyframes moveSliderControlNext {
+  from {
+    transform: translate3d(6rem, 0, 0) rotate3d(0, 0, 1, 135deg);
+  }
+  20% {
+    transform: translate3d(4rem, 0, 0) rotate3d(0, 0, 1, 90deg);
+  }
+  50% {
+    transform: translate3d(2rem, 0, 0) rotate3d(0, 0, 1, 45deg);
+  }
+}
+
+@keyframes showSliderControlNextAndPagination {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes showSliderControlPrev {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes moveNegativeResultRepeatButton {
+  from {
+    transform: translate3d(5rem, 0, 0) rotate3d(0, 0, 1, 101.25deg);
+  }
+  20% {
+    transform: translate3d(4rem, 0, 0) rotate3d(0, 0, 1, 90deg);
+  }
+  50% {
+    transform: translate3d(2rem, 0, 0) rotate3d(0, 0, 1, 45deg);
+  }
+}
+
+@keyframes showNegativeResultButton {
+  from {
+    opacity: 0;
+  }
+  83% {
+    opacity: 1;
+  }
+}
+
+@keyframes showMobileFooter {
+  from {
+    transform: translate3d(-100%, 18rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes showMobileFooterText {
+  from {
     opacity: 0;
   }
   to {
