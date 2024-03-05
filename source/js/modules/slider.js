@@ -5,6 +5,22 @@ export default () => {
   let sliderContainer = document.getElementById(`story`);
   sliderContainer.style.backgroundImage = `url("img/slide1.jpg"), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
 
+  const resetColorTheme = function () {
+    document.body.classList.remove('color-theme_rich_purple_blue');
+    document.body.classList.remove('color-theme_royal_blue');
+    document.body.classList.remove('color-theme_light_blue');
+  };
+  const setColorTheme = function () {
+    if (!storySlider) return;
+    
+    if (storySlider.activeIndex === 0) {
+      document.body.classList.add('color-theme_rich_purple_blue');
+    } else if (storySlider.activeIndex === 2) {
+      document.body.classList.add('color-theme_light_blue');
+    } else if (storySlider.activeIndex === 4) {
+      document.body.classList.add('color-theme_royal_blue');
+    }
+  };
   const setSlider = function () {
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {
       storySlider = new Swiper(`.js-slider`, {
@@ -51,6 +67,9 @@ export default () => {
         },
         on: {
           slideChange: () => {
+            resetColorTheme();
+            setColorTheme();
+
             if (storySlider.activeIndex === 0) {
               sliderContainer.style.backgroundImage = `url("img/slide1.jpg")`;
             } else if (storySlider.activeIndex === 2) {
@@ -76,6 +95,14 @@ export default () => {
       storySlider.destroy();
     }
     setSlider();
+  });
+
+  document.body.addEventListener(`screenChanged`, function (event) {
+    resetColorTheme();
+
+    if (event.detail.screenName === `story`) {
+      setColorTheme();
+    }
   });
 
   setSlider();

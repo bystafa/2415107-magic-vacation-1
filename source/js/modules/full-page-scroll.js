@@ -53,37 +53,53 @@ export default class FullPageScroll {
   }
 
   changeVisibilityDisplay() {
-    const activeScreen = document.querySelector('.screen.active');
-    const backgroundLayer = document.querySelector('.background-layer');
-    const changeScreenDelay = parseFloat(variables['change-screen-delay']) || 0;
-
-    const toggleActiveClass = () => {
-      this.screenElements.forEach((screen) => {
-        screen.classList.remove(`active`)
-      });
+    const activeScreenElement = document.querySelector(`.screen.active`);
+    const activeScreenIndex = Array.from(this.screenElements).findIndex(screen => screen === activeScreenElement);
+    const backgroundLayerElement = document.querySelector(`.background-layer`);
+    const prizeFooterWrapperElement = document.querySelector(`.screen--prizes .screen__footer-wrapper`);
+    const rulesDisclaimerElement = document.querySelector(`.screen--rules .disclaimer`);
+    const changeScreenDelay = parseFloat(variables[`change-screen-delay`]) || 0;
+    const setActiveClass = () => {
       setTimeout(() => {
         this.screenElements[this.activeScreen].classList.add(`active`);
-      }, 100);
-    }
-
+      });
+    };
     const toggleScreenHiddenClass = () => {
       this.screenElements.forEach((screen) => {
         screen.classList.add(`screen--hidden`);
       });
       this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
-    }
+    };
 
-    if (activeScreen) {
-      backgroundLayer.classList.remove('background-layer_initial');
+    this.screenElements.forEach((screen) => {
+      screen.classList.remove(`active`);
+    });
+
+    if (activeScreenElement) {
+      if (activeScreenIndex === 1 && this.activeScreen === 2) {
+        backgroundLayerElement.classList.remove(`background-layer_initial`);
+      }
+
+      if (activeScreenIndex === 2 && this.activeScreen === 3 || activeScreenIndex === 3 && this.activeScreen === 2) {
+        prizeFooterWrapperElement.classList.add(`screen__footer-wrapper_hidden`);
+        rulesDisclaimerElement.classList.add(`disclaimer_hidden`);
+      }
 
       setTimeout(() => {
-        backgroundLayer.classList.add('background-layer_initial');
+        backgroundLayerElement.classList.add(`background-layer_initial`);
 
-        toggleActiveClass();
+        setTimeout(() => {
+          if (activeScreenIndex === 2 && this.activeScreen === 3 || activeScreenIndex === 3 && this.activeScreen === 2) {
+            prizeFooterWrapperElement.classList.remove(`screen__footer-wrapper_hidden`);
+            rulesDisclaimerElement.classList.remove(`disclaimer_hidden`);
+          }
+        });
+
+        setActiveClass();
         toggleScreenHiddenClass();
       }, changeScreenDelay);
     } else {
-      toggleActiveClass();
+      setActiveClass();
       toggleScreenHiddenClass();
     }
   }
@@ -99,9 +115,9 @@ export default class FullPageScroll {
   emitChangeDisplayEvent() {
     const event = new CustomEvent(`screenChanged`, {
       detail: {
-        'screenId': this.activeScreen,
-        'screenName': this.screenElements[this.activeScreen].id,
-        'screenElement': this.screenElements[this.activeScreen]
+        screenId: this.activeScreen,
+        screenName: this.screenElements[this.activeScreen].id,
+        screenElement: this.screenElements[this.activeScreen],
       }
     });
 
